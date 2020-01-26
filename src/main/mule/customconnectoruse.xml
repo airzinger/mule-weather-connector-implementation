@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:weather="http://www.mulesoft.org/schema/mule/weather" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/weather http://www.mulesoft.org/schema/mule/weather/current/mule-weather.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="eba966d4-8f27-43c0-8a41-fbb420a29229" basePath="customRocks" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<weather:config name="Weather_Config" doc:name="Weather Config" doc:id="d9a5f51f-e907-4a01-b1d3-5bb3c171e165" >
+		<weather:connection wChannel="OpenWeather" />
+	</weather:config>
+	<flow name="customconnectoruseFlow" doc:id="a82e7b2d-393e-49ff-b0ee-240f86feed2b" >
+		<http:listener doc:name="Listener" doc:id="d48d966c-b50f-47b4-bf1f-4c4bd242dde4" config-ref="HTTP_Listener_config" path="listener"/>
+		<logger level="INFO" doc:name="Logger" doc:id="72140962-96a6-476f-869f-c6c30fc71d41" />
+		<weather:get-weather-by-zip zipCode="110044" doc:name="Get weather by ZIP" doc:id="5ddbf725-e7b8-4512-aecb-1b13c1b2794f" config-ref="Weather_Config"/>
+	</flow>
+</mule>
